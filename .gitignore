@@ -3,3 +3,15 @@
 ################################################################################
 
 /.vs/Zipper
+/Zipper.Terminal/obj
+/Zipper.Terminal/bin
+/Zipper/obj
+/Zipper/bin
+/Zipper.Compression/bin
+/Zipper.Compression/obj
+/CompareFiles/obj
+/CompareFiles/bin
+/GenerateTestFile/obj
+/GenerateTestFile/bin
+/CompareFiles/Properties/PublishProfiles
+/Zipper/Properties/PublishProfiles

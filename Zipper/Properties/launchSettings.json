@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Zipper": {
+      "commandName": "Project",
+      "commandLineArgs": "compress C:\\Users\\gv\\Documents\\test\\text.txt C:\\Users\\gv\\Documents\\test\\text.gz"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GenerateTestFile": {
+      "commandName": "Project",
+      "commandLineArgs": "--size=32000 --blockSize=5000000"
+    }
+  }
+}
