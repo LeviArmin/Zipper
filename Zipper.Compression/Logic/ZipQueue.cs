@@ -69,15 +69,16 @@ namespace Zipper.Compression.Logic
                 {
                     model.Id = model.Id ?? blockId;
 
-                    while (followSequence && blockId != model.Id)
+                    while (followSequence && blockId != model.Id && running)
                     {
                         Monitor.Wait(locker);
                     }
 
+                    if (!running)
+                        return;
+                    
                     blockId++;
-
                     bufferQueue.Enqueue(model);
-
                     Monitor.PulseAll(locker);
                 }
             }
