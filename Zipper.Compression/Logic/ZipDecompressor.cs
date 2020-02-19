@@ -28,7 +28,6 @@ namespace Zipper.Compression.Logic
             CancellationToken token = (CancellationToken)obj;
             byte[] tempBuffer = new byte[12];
 
-            inputQueue.Begin();
             try
             {
                 using (FileStream inputStream = new FileStream(inputFile, FileMode.Open))
@@ -50,6 +49,7 @@ namespace Zipper.Compression.Logic
                         //сообщить прогресс
                         UpdateProgressReading();
                     }
+                    outputQueue.AutoCloseQueueByCapacity(inputQueue.TotalBlocks);
                 }
             }
             catch (Exception ex)
@@ -58,7 +58,6 @@ namespace Zipper.Compression.Logic
                 Stop();
             }
             inputQueue.End();
-            outputQueue.AutoCloseQueueByCapacity(inputQueue.TotalBlocks);
             busyReadEvent.Set();
         }
 
@@ -90,13 +89,17 @@ namespace Zipper.Compression.Logic
                     while (!token.IsCancellationRequested)
                     {
                         BufferModel model = outputQueue.Pop();
-                        if (model == null)
+                        if (model != null)
+                        {
+                            outputStream.Write(model.Data, 0, model.Data.Length);
+
+                            //сообщить прогресс
+                            UpdateProgressWriting();
+                        }
+                        else if (!outputQueue.Running)
+                        {
                             break;
-
-                        outputStream.Write(model.Data, 0, model.Data.Length);
-
-                        //сообщить прогресс
-                        UpdateProgressWriting();
+                        }
                     }
                 }
             }

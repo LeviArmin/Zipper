@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompareFiles", "CompareFile
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenerateTestFile", "GenerateTestFile\GenerateTestFile.csproj", "{EA30F590-84AA-4C85-876A-03A2EFDB374C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZipperTest", "ZipperTest\ZipperTest.csproj", "{C02C7B26-9911-475E-A031-7A73FB0B30A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{9B60812A-2E65-46F5-93FD-AEC657708DDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{EA30F590-84AA-4C85-876A-03A2EFDB374C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA30F590-84AA-4C85-876A-03A2EFDB374C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA30F590-84AA-4C85-876A-03A2EFDB374C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C02C7B26-9911-475E-A031-7A73FB0B30A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C02C7B26-9911-475E-A031-7A73FB0B30A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C02C7B26-9911-475E-A031-7A73FB0B30A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C02C7B26-9911-475E-A031-7A73FB0B30A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B60812A-2E65-46F5-93FD-AEC657708DDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B60812A-2E65-46F5-93FD-AEC657708DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B60812A-2E65-46F5-93FD-AEC657708DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B60812A-2E65-46F5-93FD-AEC657708DDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

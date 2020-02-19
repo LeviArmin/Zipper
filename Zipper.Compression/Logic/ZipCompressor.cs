@@ -27,7 +27,6 @@ namespace Zipper.Compression.Logic
             byte[] buffer;
             int length;
 
-            inputQueue.Begin();
             try
             {
                 using (FileStream inputStream = new FileStream(inputFile, FileMode.Open))
@@ -54,6 +53,7 @@ namespace Zipper.Compression.Logic
                         //сообщить прогресс
                         UpdateProgressReading();
                     }
+                    outputQueue.AutoCloseQueueByCapacity(inputQueue.TotalBlocks);
                 }
 
             }
@@ -63,7 +63,6 @@ namespace Zipper.Compression.Logic
                 Stop();
             }
             inputQueue.End();
-            outputQueue.AutoCloseQueueByCapacity(inputQueue.TotalBlocks);
             busyReadEvent.Set();
         }
 
@@ -96,16 +95,20 @@ namespace Zipper.Compression.Logic
                     while (!token.IsCancellationRequested)
                     {
                         BufferModel model = outputQueue.Pop();
-                        if (model == null)
+                        if (model != null)
+                        {
+                            bufferLength = BitConverter.GetBytes(model.Data.Length);
+                            bufferLength.CopyTo(model.Data, 4);
+
+                            outputStream.Write(model.Data, 0, model.Data.Length);
+
+                            //сообщить прогресс
+                            UpdateProgressWriting();
+                        }
+                        else if (!outputQueue.Running)
+                        {
                             break;
-
-                        bufferLength = BitConverter.GetBytes(model.Data.Length);
-                        bufferLength.CopyTo(model.Data, 4);
-
-                        outputStream.Write(model.Data, 0, model.Data.Length);
-
-                        //сообщить прогресс
-                        UpdateProgressWriting();
+                        }
                     }
                 }
             }

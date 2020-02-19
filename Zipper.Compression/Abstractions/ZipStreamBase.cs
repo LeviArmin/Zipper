@@ -55,11 +55,14 @@ namespace Zipper.Compression.Abstractions
                 while (!token.IsCancellationRequested)
                 {
                     BufferModel model = inputQueue.Pop();
-                    if (model == null)
+                    if (model != null)
+                    {
+                        Zipping(model);
+                    }
+                    else if (!inputQueue.Running)
                     {
                         break;
                     }
-                    Zipping(model);
                 }
             }
             catch (Exception ex)

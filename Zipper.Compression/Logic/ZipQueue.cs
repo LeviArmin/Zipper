@@ -20,6 +20,8 @@ namespace Zipper.Compression.Logic
         private int capacity;
 
         public int TotalBlocks => blockId;
+        public int Capacity => capacity;
+        public bool Running => running;
         public bool FollowSequence
         {
             get
@@ -47,7 +49,10 @@ namespace Zipper.Compression.Logic
         /// <param name="capacity">лимит вместимости</param>
         public void AutoCloseQueueByCapacity(int capacity)
         {
-            this.capacity = capacity;
+            lock (locker)
+            {
+                this.capacity = capacity;
+            }
         }
         /// <summary>
         /// открыть очередь на вставку
@@ -82,27 +87,25 @@ namespace Zipper.Compression.Logic
 
             lock (locker)
             {
-                if (running)
+                model.Id = model.Id ?? blockId;
+
+                while (followSequence && blockId != model.Id && running)
                 {
-                    model.Id = model.Id ?? blockId;
-
-                    while (followSequence && blockId != model.Id && running)
-                    {
-                        Monitor.Wait(locker);
-                    }
-
-                    if (!running)
-                        return;
-                    
-                    blockId++;
-                    bufferQueue.Enqueue(model);
-                    Monitor.PulseAll(locker);
-
-                    if (capacity == blockId)
-                    {
-                        End();
-                    }
+                    Monitor.Wait(locker);
                 }
+
+                if (!running)
+                    return;
+
+                blockId++;
+                bufferQueue.Enqueue(model);
+
+                if (capacity == blockId)
+                {
+                    End();
+                }
+
+                Monitor.PulseAll(locker);
             }
         }
 
@@ -118,9 +121,14 @@ namespace Zipper.Compression.Logic
             {
                 ValidateState(false);
 
-                while (bufferQueue.Count == 0 && running)
+                while (bufferQueue.Count == 0 && running  && blockId != capacity)
                 {
                     Monitor.Wait(locker);
+                }
+
+                if (blockId == capacity)
+                {
+                    End();
                 }
 
                 if (bufferQueue.Count > 0)

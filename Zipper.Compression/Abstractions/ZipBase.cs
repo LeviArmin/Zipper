@@ -76,11 +76,8 @@ namespace Zipper.Compression.Abstractions
             int idx = 0;
             manualEvents = new ManualResetEvent[zipStreams.Length];
 
+            inputQueue.Begin();
             outputQueue.Begin();
-
-            ParameterizedThreadStart threadStartReading = new ParameterizedThreadStart(Read);
-            reading = new Thread(threadStartReading);
-            reading.Start(cancellationToken.Token);
 
             foreach (var zipStream in zipStreams)
             {
@@ -92,6 +89,10 @@ namespace Zipper.Compression.Abstractions
             ParameterizedThreadStart threadStartWriting = new ParameterizedThreadStart(Write);
             writing = new Thread(threadStartWriting);
             writing.Start(cancellationToken.Token);
+
+            ParameterizedThreadStart threadStartReading = new ParameterizedThreadStart(Read);
+            reading = new Thread(threadStartReading);
+            reading.Start(cancellationToken.Token);
         }
         /// <summary>
         /// ожидание завершения компрессии/декомпрессии
