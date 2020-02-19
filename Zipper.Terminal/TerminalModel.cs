@@ -29,6 +29,6 @@ namespace Zipper.Terminal
         /// <summary>
         /// размер блока
         /// </summary>
-        public int BlockSize { get; set; } = 1000000;
+        public int BlockSize { get; set; } = 5000000;
     }
 }

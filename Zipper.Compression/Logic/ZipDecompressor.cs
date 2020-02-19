@@ -58,6 +58,7 @@ namespace Zipper.Compression.Logic
                 Stop();
             }
             inputQueue.End();
+            outputQueue.AutoCloseQueueByCapacity(inputQueue.TotalBlocks);
             busyReadEvent.Set();
         }
 
@@ -104,7 +105,6 @@ namespace Zipper.Compression.Logic
                 SendZipException(ex);
                 Stop();
             }
-            outputQueue.End();
             busyWriteEvent.Set();
         }
 

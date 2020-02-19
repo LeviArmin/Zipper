@@ -100,10 +100,10 @@ namespace Zipper.Compression.Abstractions
         {
             busyReadEvent.WaitOne();
             WaitHandle.WaitAll(manualEvents);
-            outputQueue.End();
             busyWriteEvent.WaitOne();
-            Done?.Invoke(this);
             Console.WriteLine("Завершение записи файла. Пожалуйста подождите!");
+            outputQueue.End();
+            Done?.Invoke(this);
         }
         /// <summary>
         /// остановить работу компрессии/декомпрессии

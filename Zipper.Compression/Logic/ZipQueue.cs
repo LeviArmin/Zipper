@@ -17,7 +17,9 @@ namespace Zipper.Compression.Logic
         private object locker;
         private bool running;
         private int blockId;
+        private int capacity;
 
+        public int TotalBlocks => blockId;
         public bool FollowSequence
         {
             get
@@ -32,12 +34,24 @@ namespace Zipper.Compression.Logic
 
         public ZipQueue()
         {
+            capacity = -1;
             blockId = 0;
             followSequence = false;
             bufferQueue = new Queue<BufferModel>();
             locker = new object();
         }
 
+        /// <summary>
+        /// автоматически закрыть очередь по достижению лимита вместимости
+        /// </summary>
+        /// <param name="capacity">лимит вместимости</param>
+        public void AutoCloseQueueByCapacity(int capacity)
+        {
+            this.capacity = capacity;
+        }
+        /// <summary>
+        /// открыть очередь на вставку
+        /// </summary>
         public void Begin()
         {
             lock (locker)
@@ -46,6 +60,9 @@ namespace Zipper.Compression.Logic
                 Monitor.PulseAll(locker);
             }
         }
+        /// <summary>
+        /// закрыть очередь на вставку
+        /// </summary>
         public void End()
         {
             lock (locker)
@@ -80,6 +97,11 @@ namespace Zipper.Compression.Logic
                     blockId++;
                     bufferQueue.Enqueue(model);
                     Monitor.PulseAll(locker);
+
+                    if (capacity == blockId)
+                    {
+                        End();
+                    }
                 }
             }
         }

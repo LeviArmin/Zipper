@@ -15,3 +15,9 @@
 /GenerateTestFile/bin
 /CompareFiles/Properties/PublishProfiles
 /Zipper/Properties/PublishProfiles
+/build
+/ZipperTest/bin/Release/netcoreapp3.1
+/ZipperTest/obj
+/ZipperTest/Properties/PublishProfiles
+/ZipperTest/ZipperTest.csproj.user
+/ZipperTest/ZipperTest.csproj
