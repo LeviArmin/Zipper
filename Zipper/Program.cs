@@ -8,18 +8,21 @@ namespace Zipper
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             Console.CursorVisible = false;
             Console.OutputEncoding = Encoding.UTF8;
+            int result = 1;
 
             TerminalHelp.PrintWelcome();
 
             Zipping zipping = new Zipping();
-            zipping.Run(args);
+            result = zipping.Run(args);
             zipping.Dispose();
 
             Console.CursorVisible = true;
+
+            return result;
         }
     }
 }

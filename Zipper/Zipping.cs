@@ -41,8 +41,9 @@ namespace Zipper
         /// запустить 
         /// </summary>
         /// <param name="args"></param>
-        public void Run(string[] args)
+        public int Run(string[] args)
         {
+            int result = 0;
             TerminalSerializer serializer = new TerminalSerializer();
             try
             {
@@ -62,8 +63,9 @@ namespace Zipper
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Произошла ошибка во время выполнения программы: {ex.Message}");
                 Console.ForegroundColor = ConsoleColor.Gray;
+                result = 1;
             }
-
+            return result;
         }
 
 
